@@ -7,6 +7,8 @@ class Track {
 
       this.rectangles = [];
       this.index = 0;
+      this.score = -1;
+      this.scoreRect = null;
       while(this.index < num) {
          this.enqueueRectangle();
       }
@@ -47,6 +49,11 @@ class Track {
       for (const rect of this.rectangles) {
          if (rect.contains(player)) {
             isOnTrack = true;
+            if (rect != this.scoreRect) {
+               this.scoreRect = rect;
+               this.score += 1;
+            }
+            break;
          }
       }
       return isOnTrack;

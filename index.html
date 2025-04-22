@@ -4,7 +4,8 @@
       <title>ZigZag Game</title>
    </head>
    <body style="margin: 0px; overflow: hidden">
-      <canvas id="myCanvas" style="background-color: coral"></canvas>
+      <canvas id="myCanvas" style="background-color: black"></canvas>
+      <div id="score" style="color: #6BC417; position: absolute; top: 10px; left: 10px; font-size: 32pt;text-shadow: 0px 0px 10px yellowgreen;"></div>
       <script src="rectangle.js"></script>
       <script src="player.js"></script>
       <script src="track.js"></script>
@@ -16,10 +17,12 @@
 
          const shortSide = 100;
          const longSide = 300;
-         const N = 10;
+         const N = 20;
          const x = 0;
          const y = 0;
          const speed = 4;
+
+         let rotation = 0;
 
          const track = new Track(x, y , N, shortSide, longSide);
 
@@ -37,6 +40,7 @@
          animate();
 
          function animate() {
+            rotation += 0.003;
             player.move();
             track.adjustFor(player);
             if (!track.contains(player)) {
@@ -47,7 +51,7 @@
 
             ctx.save();
             ctx.translate(myCanvas.width / 2, myCanvas.height / 2);
-            ctx.rotate(-3 * Math.PI / 4);
+            ctx.rotate(-3 * Math.PI / 4 + rotation);
 
             ctx.translate(-player.x, -player.y);
 
@@ -55,6 +59,8 @@
             player.draw(ctx);
 
             ctx.restore();
+
+            score.innerHTML = `Score: ${Math.floor(track.score)}`;
 
             requestAnimationFrame(animate);
          }
